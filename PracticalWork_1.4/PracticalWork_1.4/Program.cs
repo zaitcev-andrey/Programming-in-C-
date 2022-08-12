@@ -12,7 +12,7 @@ namespace PracticalWork_1._4
         static void Main(string[] args)
         {
             WriteLine("Hello World!!!");
-            ReadKey();
+            ReadKey(true);
 
             Write("Hello");
             Write(" World");
