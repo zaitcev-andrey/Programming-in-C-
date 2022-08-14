@@ -26,6 +26,11 @@ namespace PracticalWork_2._7
                 programmScores,
                 mathScores,
                 physicsScores);
+
+            Console.ReadKey(true);
+            double scoresSum = programmScores + mathScores + physicsScores;
+            double arithmeticMean = scoresSum / 3;
+            Console.WriteLine($"\nСреднее арифметическое баллов = {arithmeticMean}");
         }
     }
 }
