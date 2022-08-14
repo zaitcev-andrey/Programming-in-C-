@@ -1,6 +1,3 @@
 .vs
-App.config
-*.csproj
-Properties/
 bin/
 obj/
