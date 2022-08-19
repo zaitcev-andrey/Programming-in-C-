@@ -14,24 +14,20 @@ namespace task3
             int num = int.Parse(Console.ReadLine());
             
             bool flag = false;
-            while (!flag)
+            int range = num / 2 + 1;
+            for (int i = 2; i < range; i++)
             {
-                for (int i = 2; i < num; i++)
+                if (num % i == 0)
                 {
-                    if (num % i == 0)
-                    {
-                        flag = true;
-                        break;
-                    }
-                }
-                if(flag)
-                    Console.WriteLine($"Число {num} это непростое число");
-                else
-                {
-                    Console.WriteLine($"Число {num} это простое число");
                     flag = true;
+                    break;
                 }
             }
+            if(flag)
+                Console.WriteLine($"Число {num} это непростое число");
+            else
+                Console.WriteLine($"Число {num} это простое число");
+
             Console.ReadKey(true);
         }
     }
