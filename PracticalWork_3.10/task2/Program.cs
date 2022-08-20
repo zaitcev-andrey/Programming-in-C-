@@ -28,30 +28,61 @@ namespace task2
                 {
                     Console.Write($"Введите номинал {i} карты: ");
                     string str = Console.ReadLine();
-                    switch (str)
+
+                    if (int.TryParse(str, out int nominal))
                     {
-                        case "2":
-                        case "3":
-                        case "4":
-                        case "5":
-                        case "6":
-                        case "7":
-                        case "8":
-                        case "9":
-                        case "10":
-                            sum += int.Parse(str);
-                            break;
-                        case "J":
-                        case "Q":
-                        case "K":
-                        case "T":
-                            sum += 10;
-                            break;
-                        default:
-                            Console.WriteLine("\nВы неверно ввели номинал карты, попробуйте снова!\n");
-                            flag = false;
-                            break;
+                        switch (nominal)
+                        {
+                            case int x when x >= 2 && x <= 10:
+                                sum += x;
+                                break;
+                            default:
+                                Console.WriteLine("\nВы неверно ввели номинал карты, попробуйте снова!\n");
+                                flag = false;
+                                break;
+                        }
                     }
+                    else
+                    {
+                        switch (str)
+                        {
+                            case "J":
+                            case "Q":
+                            case "K":
+                            case "T":
+                                sum += 10;
+                                break;
+                            default:
+                                Console.WriteLine("\nВы неверно ввели номинал карты, попробуйте снова!\n");
+                                flag = false;
+                                break;
+                        }
+                    }
+
+                    //switch (str)
+                    //{
+                    //    case "2":
+                    //    case "3":
+                    //    case "4":
+                    //    case "5":
+                    //    case "6":
+                    //    case "7":
+                    //    case "8":
+                    //    case "9":
+                    //    case "10":
+                    //        sum += int.Parse(str);
+                    //        break;
+                    //    case "J":
+                    //    case "Q":
+                    //    case "K":
+                    //    case "T":
+                    //        sum += 10;
+                    //        break;
+                    //    default:
+                    //        Console.WriteLine("\nВы неверно ввели номинал карты, попробуйте снова!\n");
+                    //        flag = false;
+                    //        break;
+                    //}
                     if (!flag)
                         break;
                 }
