@@ -158,6 +158,7 @@ namespace task3
             //}
             #endregion
 
+            Console.CursorVisible = false;
 
             bool[,] bacterias = new bool[Heigth, Width];
             int[,] lifeDuration = new int[Heigth, Width];
@@ -183,7 +184,7 @@ namespace task3
                 "Со временем Все бактерии смогут стать Альфа-бактериями, " +
                 "тем самым заполонят всё поле (но всё зависит от кол-ва итераций)");
             #endregion
-
+            
             int runs = 0;
             while(runs++ < MaxRuns)
             {
