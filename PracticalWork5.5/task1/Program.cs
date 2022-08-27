@@ -10,7 +10,7 @@ namespace task1
     {
         static string[] GetSubStrings(string s)
         {
-            return s.Split(' ');
+            return s.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
         }
 
         static string[] MyGetSubStrings(string s)
@@ -18,7 +18,8 @@ namespace task1
             List<string> list = new List<string>();
             int counter = 0;
             bool flag = false;
-            string str = "";
+            StringBuilder sb = new StringBuilder();
+
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i] == ' ')
@@ -31,16 +32,14 @@ namespace task1
                 }
                 else flag = true;
 
-
-                str += s[i];
+                sb.Append(s[i]);
 
                 if (flag == true)
                 {
-                    list.Add(str);
+                    list.Add(sb.ToString());
                     counter++;
                     flag = false;
-                    str = "";
-                    continue;
+                    sb.Clear();
                 }
             }
             string[] subs = new string[list.Count];

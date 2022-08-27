@@ -13,7 +13,8 @@ namespace task2
             List<string> list = new List<string>();
             int counter = 0;
             bool flag = false;
-            string str = "";
+            StringBuilder sb = new StringBuilder();
+
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i] == ' ')
@@ -26,16 +27,14 @@ namespace task2
                 }
                 else flag = true;
 
-
-                str += s[i];
+                sb.Append(s[i]);
 
                 if (flag == true)
                 {
-                    list.Add(str);
+                    list.Add(sb.ToString());
                     counter++;
                     flag = false;
-                    str = "";
-                    continue;
+                    sb.Clear();
                 }
             }
             string[] subs = new string[list.Count];
@@ -49,13 +48,13 @@ namespace task2
         static string ReverseWords(string inputPhrase)
         {
             string[] subs = MyGetSubStrings(inputPhrase);
-            string result = "";
+            StringBuilder sb = new StringBuilder();
             for (int i = subs.Length - 1; i >= 0; i--)
             {
-                result += subs[i] + " ";
+                sb.AppendFormat("{0} ", subs[i]);
             }
             // выбираем подстроку без последнего пробела
-            string new_result = result.Substring(0, result.Length - 1);
+            string new_result = sb.ToString().Substring(0, sb.Length - 1);
             return new_result;
         }
 
