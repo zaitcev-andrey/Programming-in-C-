@@ -9,7 +9,8 @@ namespace task1
 {
     internal class Program
     {
-        static void readFromFile(string path)
+        // В этой функции происходит вывод всех записей из файла на экран
+        static void ReadFromFile(string path)
         {
             if (File.Exists(path))
             {
@@ -30,7 +31,8 @@ namespace task1
             }
         }
 
-        static void writeInFile(string path, string note)
+        // в этой функции строка записывается в файл
+        static void WriteInFile(string path, string note)
         {
             if(!File.Exists(path))
             {
@@ -42,7 +44,12 @@ namespace task1
             }
         }
 
-        static string writeOneNote()
+        /// <summary>
+        /// В этой функции через StringBuilder формируется строка(запись),
+        /// которая попадёт в файл
+        /// </summary>
+        /// <returns></returns>
+        static string WriteOneNote()
         {
             StringBuilder sb = new StringBuilder();
             Console.WriteLine("Введите ID записи в формате (1, 2, 3 ...):");
@@ -86,14 +93,14 @@ namespace task1
                 {
                     case 1:
                         {
-                            readFromFile(path);
+                            ReadFromFile(path);
                             break;
                         }
                         
                     case 2:
                         {
-                            string note = writeOneNote();
-                            writeInFile(path, note);
+                            string note = WriteOneNote();
+                            WriteInFile(path, note);
                             break;
                         }
                     case 3:
