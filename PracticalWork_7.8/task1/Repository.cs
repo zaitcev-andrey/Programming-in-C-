@@ -20,6 +20,10 @@ namespace task1
         /// </summary>
         private int index;
         /// <summary>
+        /// Максимальный индекс записи для уникальности идентификаторов
+        /// </summary>
+        private int max_index;
+        /// <summary>
         /// Массив работников
         /// </summary>
         private Worker[] workers;
@@ -44,24 +48,28 @@ namespace task1
                 fs.Close();
             }
             
-            this.index = 0;
+            index = 0;
             workers = new Worker[2];
             Update();
+            if(index == 0)
+                max_index = 0;
+            else
+                max_index = workers[index-1].Id;
         }
 
         #endregion
 
-
         #region Методы
+        #region Методы на обновление и получение записей
         /// <summary>
         /// Перевыделение памяти для массива работников
         /// </summary>
         /// <param name="flag">Перевыделяем память, если истина</param>
         private void Resize(bool flag)
         {
-            if(flag)
+            if (flag)
             {
-                Array.Resize(ref this.workers, this.workers.Length * 2);
+                Array.Resize(ref workers, workers.Length * 2);
             }
         }
 
@@ -94,7 +102,10 @@ namespace task1
         /// <returns>Массив работников</returns>
         public Worker[] GetAllWorkers()
         {
-            return workers;
+            // Создаём новый массив без пустых записей в конце из-за capacity
+            Worker[] copy_workers = new Worker[index];
+            Array.Copy(workers, copy_workers, index);
+            return copy_workers;
         }
 
         /// <summary>
@@ -107,104 +118,10 @@ namespace task1
         {
             Worker worker = new Worker();
             // Проверяем id на корректность
-            if(0 <= id  && id < index)
-            {
-                using (StreamReader sr = new StreamReader(path))
-                {
-                    bool flag = true;
+            if (0 <= id && id < index)
+                worker = workers[id];
 
-                    while (!sr.EndOfStream && flag)
-                    {
-                        string[] args = sr.ReadLine().Split('#');
-                        if (Convert.ToInt32(args[0]) == id)
-                        {
-                            worker.Id = id;
-                            worker.Note_date = Convert.ToDateTime(args[1]);
-                            worker.Fio = args[2];
-                            worker.Age = Convert.ToInt32(args[3]);
-                            worker.Height = Convert.ToInt32(args[4]);
-                            worker.Birth_date = Convert.ToDateTime(args[5]);
-                            worker.Birth_place = args[6];
-                            flag = false;
-                        }
-                    }
-                }
-            }
-            
             return worker;
-        }
-
-        /// <summary>
-        /// Удаление работника из файла
-        /// и из собственного массива работников
-        /// по указанному id
-        /// </summary>
-        /// <param name="id">id работника</param>
-        public void DeleteWorker(int id)
-        {
-            if(0 <= id && id < index)
-            {
-                //Array.Clear(workers, id, 1);
-                workers = workers.Where(x => x.Id != id).ToArray();
-                index--;
-                // Обновляем порядок индексов с удалённого элемента
-                // и до конца массива
-                for (int i = id; i < index; i++)
-                    workers[i].Id = i;
-
-                bool flag = true;
-
-                // Создаём на диске временный пустой файл
-                string tempFile = Path.GetTempFileName();
-                using (StreamReader sr = new StreamReader(path))
-                using (StreamWriter sw = new StreamWriter(tempFile))
-                {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        string[] args = line.Split('#');
-                        if (flag)
-                            if (Convert.ToInt32(args[0]) != id)
-                                sw.WriteLine(line);
-                            else
-                                flag = false;
-
-                        // обновляем нумерацию индексов
-                        else
-                        {
-                            int last_ind = line.IndexOf('#');
-                            string substr = line.Substring(0, last_ind);
-                            int new_ind = Convert.ToInt32(args[0]) - 1;
-                            line = line.Replace(substr, Convert.ToString(new_ind));
-                            sw.WriteLine(line);
-                        }
-                    }
-                }
-                // Теперь удаляем старый файл и перемещаем
-                // новый файл с обновлёнными данными на место старого
-                File.Delete(path);
-                File.Move(tempFile, path);
-            }
-        }
-
-        /// <summary>
-        /// Добавление работника в файл
-        /// и в собственный массив работников
-        /// </summary>
-        /// <param name="worker">Экземпляр работника</param>
-        public void AddWorker(Worker worker)
-        {
-            worker.Id = this.index;
-            Resize(this.index >= workers.Length);
-            workers[index] = worker;
-            index++;
-            using(StreamWriter sw = new StreamWriter(path, true))
-            {
-                string result = $"{worker.Id}#{worker.Note_date}#{worker.Fio}#{worker.Age}#" +
-                    $"{worker.Height}#{worker.Birth_date}#{worker.Birth_place}";
-                
-                sw.WriteLine(result);
-            }
         }
 
         /// <summary>
@@ -216,7 +133,11 @@ namespace task1
         /// <returns>Массив работников</returns>
         public Worker[] GetWorkersBetweenTwoDates(DateTime dateFrom, DateTime dateTo)
         {
-            Worker[] sorted = workers.OrderBy(w => w.Note_date).ToArray();
+            // Создаём новый массив без пустых записей в конце из-за capacity
+            Worker[] copy_workers = new Worker[index];
+            Array.Copy(workers, copy_workers, index);
+
+            Worker[] sorted = copy_workers.OrderBy(w => w.Note_date).ToArray();
 
             int fromIndex = 0;
             while (true && fromIndex < index)
@@ -225,7 +146,7 @@ namespace task1
                     break;
                 fromIndex++;
             }
-            
+
             int lastIndex = fromIndex;
             while (true && lastIndex < index)
             {
@@ -244,9 +165,9 @@ namespace task1
         /// </summary>
         public void Print()
         {
-            foreach (Worker worker in workers)
+            for (int i = 0; i < index; i++)
             {
-                worker.Print();
+                workers[i].Print();
             }
         }
 
@@ -258,39 +179,106 @@ namespace task1
         /// <returns>Массив работников</returns>
         public Worker[] OrderByField(int field_index)
         {
-            // В switch 7 условий, так как в Worker всего 7 полей
             Worker[] sorted;
+            // Создаём новый массив без пустых записей в конце из-за capacity
+            Worker[] copy_workers = new Worker[index];
+            Array.Copy(workers, copy_workers, index);
+            // В switch 7 условий, так как в Worker всего 7 полей
             switch (field_index)
             {
                 case 0:
-                    sorted = workers.OrderBy(w => w.Id).ToArray();
+                    sorted = copy_workers.OrderBy(w => w.Id).ToArray();
                     break;
                 case 1:
-                    sorted = workers.OrderBy(w => w.Note_date).ToArray();
+                    sorted = copy_workers.OrderBy(w => w.Note_date).ToArray();
                     break;
                 case 2:
-                    sorted = workers.OrderBy(w => w.Fio).ToArray();
+                    sorted = copy_workers.OrderBy(w => w.Fio).ToArray();
                     break;
                 case 3:
-                    sorted = workers.OrderBy(w => w.Age).ToArray();
+                    sorted = copy_workers.OrderBy(w => w.Age).ToArray();
                     break;
                 case 4:
-                    sorted = workers.OrderBy(w => w.Height).ToArray();
+                    sorted = copy_workers.OrderBy(w => w.Height).ToArray();
                     break;
                 case 5:
-                    sorted = workers.OrderBy(w => w.Birth_date).ToArray();
+                    sorted = copy_workers.OrderBy(w => w.Birth_date).ToArray();
                     break;
                 case 6:
-                    sorted = workers.OrderBy(w => w.Birth_place).ToArray();
+                    sorted = copy_workers.OrderBy(w => w.Birth_place).ToArray();
                     break;
                 default:
-                    sorted = workers;
+                    sorted = copy_workers;
                     break;
             }
             return sorted;
         }
 
+        private string GetStringFromWorker(Worker w)
+        {
+            return $"{w.Id}#{w.Note_date}#" +
+                    $"{w.Fio}#{w.Age}#" +
+                    $"{w.Height}#{w.Birth_date}#" +
+                    $"{w.Birth_place}";
+        }
         #endregion
 
+        #region Методы на добавление и удаление записей
+
+        /// <summary>
+        /// Добавление работника в файл
+        /// и в собственный массив работников
+        /// </summary>
+        /// <param name="worker">Экземпляр работника</param>
+        public void AddWorker(Worker worker)
+        {
+            Worker new_worker = new Worker(max_index, worker.Note_date, worker.Fio,
+                worker.Age, worker.Height, worker.Birth_date, worker.Birth_place);
+            Resize(index >= workers.Length);
+            workers[index] = new_worker;
+            index++;
+            max_index++;
+            using (StreamWriter sw = new StreamWriter(path, true))
+            {
+                sw.WriteLine(GetStringFromWorker(new_worker));
+            }
+        }
+
+        /// <summary>
+        /// Удаление работника из файла
+        /// и из собственного массива работников
+        /// по указанному id
+        /// </summary>
+        /// <param name="id">id работника</param>
+        public void DeleteWorker(int id)
+        {
+            if (0 <= id && id < max_index)
+            {
+                // Более медленный вариант
+                //workers = workers.Where(x => x.Id != id).ToArray();
+
+                if (id == max_index)
+                    max_index--;
+                // Удаляем работника по индексу и сдвигаем влево, чтобы избежать пустоты
+                int from = Array.FindIndex(workers, worker => worker.Id == id);
+                if (from == -1)
+                    return;
+                Array.Clear(workers, from, 1);
+                for (int i = from; i < index - 1; i++)
+                    workers[i] = workers[i + 1];
+                index--;
+
+                // без true, чтобы перезаписать файл
+                using (StreamWriter sw = new StreamWriter(path))
+                {
+                    for (int i = 0; i < index; i++)
+                        sw.WriteLine(GetStringFromWorker(workers[i]));
+                }
+            }
+        }
+
+        #endregion
+
+        #endregion
     }
 }

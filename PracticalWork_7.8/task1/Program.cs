@@ -14,54 +14,51 @@ namespace task1
         /// <returns>Экземпляр работника</returns>
         static Worker CreateOneWorker()
         {
-            Worker worker = new Worker();
-            while(true)
+            DateTime note_date, birth_date;
+            string fio, birth_place;
+            uint age, height;
+            while (true)
             {
                 Console.WriteLine("Создание работника:");
 
                 Console.WriteLine("Введите дату и время " +
                     "добавления записи в формате (дд.мм.гггг чч:мм):");
-                if(!DateTime.TryParse(Console.ReadLine(), out DateTime note_date))
+                if(!DateTime.TryParse(Console.ReadLine(), out note_date))
                 {
                     Console.WriteLine("Вы ввели неверную дату записи, попробуйте снова:\n");
                     continue;
                 }
 
                 Console.WriteLine("Введите Ф.И.О в формате (Иванов иван Иванович)");
-                string fio = Console.ReadLine();
+                fio = Console.ReadLine();
                 
                 Console.WriteLine("Введите возраст в формате (25)");
-                if (!int.TryParse(Console.ReadLine(), out int age))
+                if (!uint.TryParse(Console.ReadLine(), out age))
                 {
                     Console.WriteLine("Вы некорректно ввели возраст, попробуйте снова:\n");
                     continue;
                 }
 
                 Console.WriteLine("Введите рост в формате (176)");
-                if (!int.TryParse(Console.ReadLine(), out int height))
+                if (!uint.TryParse(Console.ReadLine(), out height))
                 {
                     Console.WriteLine("Вы некорректно ввели рост, попробуйте снова:\n");
                     continue;
                 }
 
                 Console.WriteLine("Введите дату рождения в формате (дд.мм.гггг)");
-                if (!DateTime.TryParse(Console.ReadLine(), out DateTime birth_date))
+                if (!DateTime.TryParse(Console.ReadLine(), out birth_date))
                 {
                     Console.WriteLine("Вы ввели неверную дату рождения, попробуйте снова:\n");
                     continue;
                 }
                 Console.WriteLine("Введите место рождения в формате (город Москва)");
-                string birth_place = Console.ReadLine();
+                birth_place = Console.ReadLine();
 
-                worker.Note_date = note_date;
-                worker.Fio = fio;
-                worker.Age = age;
-                worker.Height = height;
-                worker.Birth_date = birth_date;
-                worker.Birth_place = birth_place;
                 break;
             }
-            return worker;
+
+            return new Worker(0, note_date, fio, age, height, birth_date, birth_place);
         }
 
         /// <summary>

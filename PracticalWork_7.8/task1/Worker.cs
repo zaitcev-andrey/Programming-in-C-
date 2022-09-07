@@ -50,13 +50,13 @@ namespace task1
         public int Id
         {
             get { return id; }
-            set { id = value; }
+            private set { id = value; }
         }
 
         public DateTime Note_date
         {
             get { return note_date; }
-            set { note_date = value; }
+            private set { note_date = value; }
         }
 
         public string Fio
@@ -65,28 +65,28 @@ namespace task1
             set { fio = value; }
         }
 
-        public int Age 
+        public uint Age 
         {
-            get { return Convert.ToInt32(age); }
+            get { return age; }
             set { age = Convert.ToUInt32(value); } 
         }
 
-        public int Height
+        public uint Height
         {
-            get { return Convert.ToInt32(height); }
+            get { return height; }
             set { height = Convert.ToUInt32(value); }
         }
 
         public DateTime Birth_date
         {
             get { return birth_date; }
-            set { birth_date = value; }
+            private set { birth_date = value; }
         }
 
         public string Birth_place
         {
             get { return birth_place; }
-            set { birth_place = value; }
+            private set { birth_place = value; }
         }
 
         #endregion
@@ -97,10 +97,11 @@ namespace task1
         /// </summary>
         public void Print()
         {
-            Console.WriteLine($"id: {Id}\tдата записи: {Note_date}\t" +
+            Console.WriteLine($"id: {Id}\tдата записи: {Note_date, 19}\t" +
                 $"Ф.И.О: {Fio}\tВозраст: {Age}\tРост: {Height}\t" +
-                $"Дата рождения: {Birth_date}\tМесто рождения: {Birth_place}");
+                $"Дата рождения: {Birth_date, 19}\tМесто рождения: {Birth_place}");
         }
+
         #endregion
     }
 }
