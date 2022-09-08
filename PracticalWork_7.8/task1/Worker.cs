@@ -102,6 +102,13 @@ namespace task1
                 $"Дата рождения: {Birth_date, 19}\tМесто рождения: {Birth_place}");
         }
 
+        public bool IsEmpty()
+        {
+            return Id == 0 && Age == 0 && Height == 0 && Fio == null
+                && Birth_place == null && Note_date == new DateTime()
+                && Birth_date == new DateTime();
+        }
+
         #endregion
     }
 }

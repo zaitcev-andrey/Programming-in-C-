@@ -54,7 +54,7 @@ namespace task1
             if(index == 0)
                 max_index = 0;
             else
-                max_index = workers[index-1].Id;
+                max_index = workers[index-1].Id + 1;
         }
 
         #endregion
@@ -118,8 +118,12 @@ namespace task1
         {
             Worker worker = new Worker();
             // Проверяем id на корректность
-            if (0 <= id && id < index)
-                worker = workers[id];
+            if (0 <= id && id < max_index)
+            {
+                int our_element = Array.FindIndex(workers, w => w.Id == id);
+                if (our_element != -1)
+                    worker = workers[our_element];
+            }
 
             return worker;
         }
@@ -140,7 +144,7 @@ namespace task1
             Worker[] sorted = copy_workers.OrderBy(w => w.Note_date).ToArray();
 
             int fromIndex = 0;
-            while (true && fromIndex < index)
+            while (fromIndex < index)
             {
                 if (sorted[fromIndex].Note_date >= dateFrom)
                     break;
@@ -148,7 +152,7 @@ namespace task1
             }
 
             int lastIndex = fromIndex;
-            while (true && lastIndex < index)
+            while (lastIndex < index)
             {
                 if (sorted[lastIndex].Note_date > dateTo)
                     break;
@@ -221,6 +225,12 @@ namespace task1
                     $"{w.Height}#{w.Birth_date}#" +
                     $"{w.Birth_place}";
         }
+
+        private Worker CreateWorker(ref Worker worker)
+        {
+            return new Worker(max_index, worker.Note_date, worker.Fio,
+                worker.Age, worker.Height, worker.Birth_date, worker.Birth_place);
+        }
         #endregion
 
         #region Методы на добавление и удаление записей
@@ -232,8 +242,7 @@ namespace task1
         /// <param name="worker">Экземпляр работника</param>
         public void AddWorker(Worker worker)
         {
-            Worker new_worker = new Worker(max_index, worker.Note_date, worker.Fio,
-                worker.Age, worker.Height, worker.Birth_date, worker.Birth_place);
+            Worker new_worker = CreateWorker(ref worker);
             Resize(index >= workers.Length);
             workers[index] = new_worker;
             index++;
@@ -263,9 +272,7 @@ namespace task1
                 int from = Array.FindIndex(workers, worker => worker.Id == id);
                 if (from == -1)
                     return;
-                Array.Clear(workers, from, 1);
-                for (int i = from; i < index - 1; i++)
-                    workers[i] = workers[i + 1];
+                Array.Copy(workers, from + 1, workers, from, index - from - 1);
                 index--;
 
                 // без true, чтобы перезаписать файл

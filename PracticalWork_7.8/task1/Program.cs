@@ -19,7 +19,7 @@ namespace task1
             uint age, height;
             while (true)
             {
-                Console.WriteLine("Создание работника:");
+                Console.WriteLine("Создание сотрудника:");
 
                 Console.WriteLine("Введите дату и время " +
                     "добавления записи в формате (дд.мм.гггг чч:мм):");
@@ -79,7 +79,6 @@ namespace task1
 
             #region Добавление записей в файл
 
-            //rep.AddWorker(CreateOneWorker());
             rep.AddWorker(new Worker(0, DateTime.Now,
                 "Иванов И.С.", 26, 182, DateTime.Parse("5.8.1996"), "Томск"));
             rep.AddWorker(new Worker(0, new DateTime(2022, 9, 4, 16, 30, 20),
@@ -91,51 +90,135 @@ namespace task1
 
             #endregion
 
-            #region Получение данных из файла и их распечатка в консоле
-            //Получение всех записей из файла
-            Console.WriteLine("Получение всех записей из файла");
-            Worker[] workers = rep.GetAllWorkers();
-            PrintWorkers(workers);
-            Console.WriteLine();
-            Console.ReadKey(true);
+            bool flag = true;
+            while(flag)
+            {
+                Console.WriteLine("Выберите одно из следующих" +
+                    " действий по базе сотрудников:\n" +
+                    "1) Введите 1, чтобы получить данные о базе в консоль\n" +
+                    "2) Введите 2, чтобы добавить запись в базу\n" +
+                    "3) Введите 3, чтобы удалить запись из базы\n" +
+                    "4) Введите 4, чтобы получить определённую запись из базы\n" +
+                    "5) Введите 5, чтобы получить диапазон записей из базы " +
+                    "между двумя датами\n" +
+                    "6) Введите 6, чтобы получить отсортированные записи " +
+                    "из базы по какой-либо характеристике\n" +
+                    "7) Введите 0, чтобы выйти из программы, " +
+                    "если закончили свою работу");
 
-            // Получение определённой записи из файла
-            Console.WriteLine("Получение определённой записи из файла");
-            Worker worker1 = rep.GetWorkerById(2);
-            worker1.Print();
-            Console.WriteLine();
-            Console.ReadKey(true);
+                int choice;
+                // Сохраняем выбор из меню в переменную, строго проверяя на корректность ввода
+                while(true)
+                {
+                    while(!int.TryParse(Console.ReadLine(), out choice))
+                        Console.WriteLine("Вы ошиблись при вводе, повторите попытку");
+                    if (choice >= 0 && choice <= 6)
+                        break;
+                    else
+                        Console.WriteLine("Вы ошиблись при вводе числа, повторите попытку");
+                }   
 
-            // Получение диапазона записей между двумя датами из файла
-            Console.WriteLine("Получение диапазона записей между двумя датами из файла");
-            Worker[] workers2 = rep.GetWorkersBetweenTwoDates(
-                new DateTime(2022, 6, 7, 11, 20, 20),
-                new DateTime(2022, 9, 5, 11, 20, 20));
-            PrintWorkers(workers2);
-            Console.WriteLine();
-            Console.ReadKey(true);
+                switch (choice)
+                {
+                    case 0:
+                        Console.WriteLine("Выход из Приложения!");
+                        flag = false;
+                        break;
+                    case 1:
+                        {
+                            //Получение всех записей из файла
+                            Console.WriteLine("\nПолучение всех записей из базы");
+                            Worker[] workers = rep.GetAllWorkers();
+                            PrintWorkers(workers);
+                            Console.WriteLine();
+                            break;
+                        }
+                            
+                    case 2:
+                        {
+                            // Добавление записи
+                            Console.WriteLine();
+                            rep.AddWorker(CreateOneWorker());
+                            Console.WriteLine("Запись добавлена!");
+                            Console.WriteLine();
+                            break;
+                        }
+                            
+                    case 3:
+                        {
+                            // Удаление записи
+                            Console.WriteLine("\nУдаление записи");
+                            Console.WriteLine("Введите индекс записи, которую хотите удалить:");
+                            while (!int.TryParse(Console.ReadLine(), out choice))
+                                Console.WriteLine("Вы ввели не число, а символ, повторите попытку");
+                            rep.DeleteWorker(choice);
+                            Console.WriteLine();
+                            break;
+                        }
+                        
+                    case 4:
+                        {
+                            // Получение определённой записи из файла
+                            Console.WriteLine("\nПолучение определённой записи из файла");
+                            Console.WriteLine("Введите индекс записи, которую хотите получить:");
+                            while (!int.TryParse(Console.ReadLine(), out choice))
+                                Console.WriteLine("Вы ввели не число, а символ, повторите попытку");
+                            Worker worker = rep.GetWorkerById(choice);
+                            if(worker.IsEmpty())
+                                Console.WriteLine("Записи по такому id не существует!");
+                            else
+                                worker.Print();
+                            Console.WriteLine();
+                            break;
+                        }
+                        
+                    case 5:
+                        {
+                            // Получение диапазона записей между двумя датами из файла
+                            Console.WriteLine("\nПолучение диапазона записей между двумя датами из файла");
+                            DateTime date_from, date_to;
+                            Console.WriteLine("Введите дату и время добавления записи в формате " +
+                                "(дд.мм.гггг чч:мм), как начало диапазона");
+                            while (!DateTime.TryParse(Console.ReadLine(), out date_from))
+                                Console.WriteLine("Вы ввели неверную дату записи, попробуйте снова:");
 
-            // Получение отсортированных записей по полю из файла
-            Console.WriteLine("Получение отсортированных записей по полю из файла");
-            Worker[] sorted_workers = rep.OrderByField(4); // 4 - рост
-            PrintWorkers(sorted_workers);
-            Console.WriteLine();
-            Console.ReadKey(true);
-            #endregion
+                            Console.WriteLine("Введите дату и время добавления записи в формате " +
+                                "(дд.мм.гггг чч:мм), как конец диапазона");
+                            while (!DateTime.TryParse(Console.ReadLine(), out date_to))
+                                Console.WriteLine("Вы ввели неверную дату записи, попробуйте снова:");
 
-            #region Удаление записей и распечатка данных
-            Console.WriteLine("Удаление записей. Это исходный массив до удаления");
-            rep.Print();
-            Console.ReadKey(true);
-            Console.WriteLine("Удалили запись по индексу 1");
-            rep.DeleteWorker(1);
-            rep.Print();
-            Console.ReadKey(true);
-            Console.WriteLine("Удалили запись по индексу 2");
-            rep.DeleteWorker(2);
-            rep.Print();
-            #endregion
-
+                            Worker[] workers = rep.GetWorkersBetweenTwoDates(
+                                date_from,
+                                date_to);
+                            PrintWorkers(workers);
+                            Console.WriteLine();
+                            break;
+                        }
+                        
+                    case 6:
+                        {
+                            // Получение отсортированных записей по характеристике из файла
+                            Console.WriteLine("\nПолучение отсортированных записей по характеристике из файла\n" +
+                                "Введите число от 0 до 6, где\n" +
+                                "0 - сортировка по id\n" +
+                                "1 - сортировка по дате добавления записи\n" +
+                                "2 - сортировка по именам\n" +
+                                "3 - сортировка по возрасту\n" +
+                                "4 - сортировка по росту\n" +
+                                "5 - сортировка по дате рождения\n" +
+                                "6 - сортировка по месту рождения\n" +
+                                "При вводе чего-то другого из чисел, сортировка не произойдёт, " +
+                                "вы увидите записи в базе как они есть");
+                            while (!int.TryParse(Console.ReadLine(), out choice))
+                                Console.WriteLine("Вы ввели не число, а символ, повторите попытку");
+                            Worker[] sorted_workers = rep.OrderByField(choice);
+                            Console.WriteLine();
+                            PrintWorkers(sorted_workers);
+                            Console.WriteLine();
+                            break;
+                        }
+                }
+            }
             Console.ReadKey(true);
         }
     }
