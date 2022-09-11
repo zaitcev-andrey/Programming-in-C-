@@ -43,7 +43,7 @@ namespace Task_2
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("Вас приветсвует программа записи телефонов и их владельцев\n");
+            Console.WriteLine("Вас приветствует программа записи телефонов и их владельцев\n");
             Dictionary<string, string> map = new Dictionary<string, string>();
             
             FillDictionary(map);
