@@ -40,11 +40,14 @@ namespace Task_1
         static string GetAllFiles(string pathToDirectory = "../")
         {
             string[] allfiles = Directory.GetFiles(pathToDirectory);
+            if (allfiles.Length == 0)
+                return "Нет файлов";
             StringBuilder sb = new StringBuilder();
             foreach (string filename in allfiles)
             {
-                // Выбираем подстроку с 3 индекса, чтобы не выводить ../
-                sb.Append($"{filename[3..]}\n");
+                // Вместо выбора подстроки с 3 индекса, чтобы не выводить ../
+                // используем Path.GetFileName(filename)
+                sb.Append($"{Path.GetFileName(filename)}\n");
             }
             return sb.ToString();
         }
@@ -85,19 +88,23 @@ namespace Task_1
                 else if(message.Text.ToLower() == "получить файлы на компьютере")
                 {
                     await botClient.SendTextMessageAsync(message.Chat.Id, GetAllFiles());
+
                     return;
                 }
                 else if(message.Text.ToLower().Contains("скачать файл"))
                 {
-                    string destinationFilePath = $"../{message.Text[13..]}"; // пропускаем скачать файл и пробел после него
+                    string fileName = message.Text[13..]; // пропускаем скачать файл и пробел после него
+                    string destinationFilePath = $"../{fileName}";
 
                     // обязательно проверка на существование файла
                     if(System.IO.File.Exists(destinationFilePath))
                     {
-                        await using Stream stream = System.IO.File.OpenRead(destinationFilePath);
-                        // следующий метод взял из 3.4.2 в документации
-                        await botClient.SendDocumentAsync(message.Chat.Id, new InputOnlineFile(stream, message.Text[13..]));
-                        stream.Close();
+                        await using (Stream stream = System.IO.File.OpenRead(destinationFilePath))
+                        {
+                            // следующий метод взял из 3.4.2 в документации
+                            await botClient.SendDocumentAsync(message.Chat.Id, new InputOnlineFile(stream, fileName));
+                        }
+                        
                         return;
                     }
                     
@@ -133,9 +140,10 @@ namespace Task_1
                 // в качестве пути указываем папку на путь назад, то есть debug, 
                 // куда и сохранится наш файл под тем же именем (в данном случае картинка)
                 string destinationFilePath = $"../{message.Document.FileName}";
-                await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
-                await botClient.DownloadFileAsync(filePath, fileStream);
-                fileStream.Close(); // не забываем закрыть, потому что данный using сам может не закрыть
+                await using (FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath))
+                {
+                    await botClient.DownloadFileAsync(filePath, fileStream);
+                }
 
                 return;
             }
@@ -150,9 +158,10 @@ namespace Task_1
                 var filePath = fileInfo.FilePath;
 
                 string destinationFilePath = $"../{message.Audio.FileName}";
-                await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
-                await botClient.DownloadFileAsync(filePath, fileStream);
-                fileStream.Close();
+                await using (FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath))
+                {
+                    await botClient.DownloadFileAsync(filePath, fileStream);
+                }
 
                 return;
             }
@@ -169,9 +178,10 @@ namespace Task_1
                 // обязательно в названии файла заменяем : на .
                 // так как в названиях файлов не должно быть :
                 string destinationFilePath = $"../Audio message from {DateTime.Now.ToString().Replace(':', '.')}.ogg";
-                await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
-                await botClient.DownloadFileAsync(filePath, fileStream);
-                fileStream.Close();
+                await using (FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath))
+                {
+                    await botClient.DownloadFileAsync(filePath, fileStream);
+                }
 
                 return;
             }
@@ -186,17 +196,19 @@ namespace Task_1
                 var filePath = fileInfo.FilePath;
 
                 string destinationFilePath = $"../{message.Video.FileName}";
-                await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
-                await botClient.DownloadFileAsync(filePath, fileStream);
-                fileStream.Close();
+                await using (FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath))
+                {
+                    await botClient.DownloadFileAsync(filePath, fileStream);
+                }
 
                 return;
             }
         }
 
-        private static Task Error(ITelegramBotClient botClient, Exception exc, CancellationToken token)
+        private static async Task Error(ITelegramBotClient botClient, Exception exc, CancellationToken token)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            Console.WriteLine($"Error: {exc.Message}");
         }
     }
 }
