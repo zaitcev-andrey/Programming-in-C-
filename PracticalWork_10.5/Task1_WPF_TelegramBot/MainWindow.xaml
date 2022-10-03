@@ -1,0 +1,138 @@
+﻿<Window x:Class="Task1_WPF_TelegramBot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Task1_WPF_TelegramBot"
+        mc:Ignorable="d"
+        Title="MainWindow" 
+        Height="650" 
+        Width="1000" 
+        MinHeight="600" 
+        MinWidth="800" Background="#FF72FF88"
+        >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55*"/>
+            <RowDefinition Height="444*"/>
+            <RowDefinition Height="85*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Grid.Row="0">
+            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Margin="5" Text="Здесь все сообщения" HorizontalAlignment="Center" FontSize="24" Height="41"/>
+        </StackPanel>
+
+        <ListBox x:Name="loglist" 
+                 Grid.Column="0" 
+                 Grid.Row="1"
+                 Margin="10,16,10,10"
+                 Background="White" Grid.RowSpan="3"
+
+                 >
+
+            <!--следующие 2 тега обязательны, так как они скрывают содержимое listbox-а, и мы избегаем ошибки
+            в строке loglist.ItemsSource = client.ListMessageLog; "коллекция элементов должна быть пустой"-->
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="2" MaxWidth="350" CornerRadius="10,10,10,10" Margin="5">
+                        <Border.BorderBrush>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF26F929"/>
+                                <GradientStop Color="#FF5CF180" Offset="1"/>
+                                <GradientStop Color="#FF9FFDA0" Offset="0.813"/>
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <StackPanel Margin="10">
+                            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Margin="5" Text="{Binding FirstName}"/>
+                            <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Margin="5" Text="{Binding Msg}"/>
+                            <TextBlock x:Name="textBlock2" TextWrapping="Wrap" Margin="5" Text="{Binding Time}" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Column="1" Grid.RowSpan="3">
+            <GroupBox x:Name="groupBox"
+                  Grid.Column="1" 
+                  FontSize="25"
+                  Header="Отправка сообщения"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Margin="10" FontStretch="Normal" FontWeight="Normal">
+                <StackPanel>
+                    <TextBlock x:Name="targetSendId" Text="{Binding ElementName=loglist, Path=SelectedItem.Id}" Margin="10" Visibility="Collapsed"/>
+                    <TextBox x:Name="textBoxSendMsg" Text="" Margin="5"/>
+                    <Button x:Name="buttonMsgSend" Content="Отправить" Margin="5" Click="buttonMsgSend_Click" BorderBrush="#FF888888" FontFamily="Georgia">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFF7FF65"/>
+                                <GradientStop Color="White" Offset="1"/>
+                                <GradientStop Color="#FFFAFF9A" Offset="0.807"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+            </GroupBox>
+
+            <Button x:Name="buttonSaveMsg" 
+                    Content="Сохранить историю сообщений"
+                    Margin="10"
+                    Padding="5"
+                    FontSize="24" BorderBrush="#FFFC8CFD" 
+                    BorderThickness="2"
+                    Background="#FF40EFF3" Click="buttonSaveMsg_Click"/>
+            <Button x:Name="buttonGetMsgStory" 
+                    Content="Получить историю сообщений" 
+                    Margin="10" 
+                    Padding="5" 
+                    FontSize="24" 
+                    Click="buttonGetMsgStory_Click" 
+                    Background="#FFE7C6FF"/>
+
+            <ListBox x:Name="storyListBox"
+                     Margin="10"
+                     Grid.Column="1"
+                     Grid.Row="1" 
+                     Height="230"
+                     >
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border  BorderThickness="2" MaxWidth="350" CornerRadius="10,10,10,10">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF4EEF50"/>
+                                    <GradientStop Color="#FF5CF180" Offset="1"/>
+                                    <GradientStop Color="#FF9FFDA0" Offset="0.813"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <StackPanel>
+                                <TextBlock x:Name="textStoryBlock1" TextWrapping="Wrap" Margin="5" Text="{Binding FirstName}"/>
+                                <TextBlock x:Name="textStoryBlock2" TextWrapping="Wrap" Margin="5" Text="{Binding Msg}"/>
+                                <TextBlock x:Name="textStoryBlock3" TextWrapping="Wrap" Margin="5" Text="{Binding Time}"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+        </StackPanel>
+        
+        
+        
+        <StackPanel Grid.Column="1" Grid.Row="3" Margin="0,3,0,0">
+            <Button x:Name="buttonCloseApp" Content="Закрыть приложение"
+                    Margin="10"
+                    Padding="10" FontSize="20" Height="50" Background="#FF40EFF3" Click="buttonCloseApp_Click"
+                    />
+        </StackPanel>
+
+
+    </Grid>
+</Window>
