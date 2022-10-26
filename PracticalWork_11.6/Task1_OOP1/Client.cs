@@ -6,7 +6,7 @@ namespace Task1_OOP1
 {
     internal class Client
     {
-        public string FirtstName { get; }
+        public string FirstName { get; }
         public string SecondName { get; }
         public string MiddleName { get; }
         public string TelephoneNumber { get; set; }
@@ -16,7 +16,7 @@ namespace Task1_OOP1
             string middleName, string telephoneNumber,
             string pasport)
         {
-            FirtstName = firstName;
+            FirstName = firstName;
             SecondName = secondName;
             MiddleName = middleName;
             TelephoneNumber = telephoneNumber;
@@ -28,7 +28,7 @@ namespace Task1_OOP1
             if (string.IsNullOrEmpty(Pasport))
                 return "Данных о паспорте нет!";
             else
-                return $"Серия и номер паспорта у клиента {SecondName} {FirtstName} {MiddleName} скрыты: **** ******";
+                return $"Серия и номер паспорта у клиента {SecondName} {FirstName} {MiddleName} скрыты: **** ******";
         }
     }
 }

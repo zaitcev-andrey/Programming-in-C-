@@ -20,7 +20,7 @@ namespace Task2_OOP1
             Console.Write("Введите фамилию: ");
             client.SecondName = Console.ReadLine();
             Console.Write("Введите имя: ");
-            client.FirtstName = Console.ReadLine();
+            client.FirstName = Console.ReadLine();
             Console.Write("Введите отчество: ");
             client.MiddleName = Console.ReadLine();
         }

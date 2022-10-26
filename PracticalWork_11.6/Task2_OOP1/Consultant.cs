@@ -17,11 +17,11 @@ namespace Task2_OOP1
 
         public void PrintClientFIO(Client client)
         {
-            Console.WriteLine($"ФИО клиента: {client.SecondName} {client.FirtstName} {client.MiddleName}");
+            Console.WriteLine($"ФИО клиента: {client.SecondName} {client.FirstName} {client.MiddleName}");
         }
         private string GetClientFIO(Client client)
         {
-            return $"{client.SecondName} {client.FirtstName} {client.MiddleName}";
+            return $"{client.SecondName} {client.FirstName} {client.MiddleName}";
         }
         /// <summary>
         /// Изменение номера телефона клиента
