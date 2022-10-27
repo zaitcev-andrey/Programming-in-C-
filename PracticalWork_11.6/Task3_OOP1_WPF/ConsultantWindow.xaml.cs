@@ -21,13 +21,16 @@ namespace Task3_OOP1_WPF
     public partial class ConsultantWindow : Window
     {
         ObservableCollection<Client> clients = new ObservableCollection<Client>();
+        Consultant consultant = new Consultant();
         bool isFirstLoading = true;
+        int lastChangeIndex = -1;
+
         public ConsultantWindow()
         {
             InitializeComponent();            
         }
 
-        private void LoadData(object sender, RoutedEventArgs e)
+        private void buttonClickLoadData(object sender, RoutedEventArgs e)
         {
             if(isFirstLoading)
             {
@@ -56,6 +59,78 @@ namespace Task3_OOP1_WPF
                 // целиком объект не сможет отобразиться
                 listBox.ItemsSource = clients;
             }            
+        }
+
+        private void buttonSaveNumber_Click(object sender, RoutedEventArgs e)
+        {
+            // Получаем индекс из строки и убеждаемся в его корректности
+            string clientIndex = textBoxClientNumber.Text;
+            if (!int.TryParse(clientIndex, out int ind))
+                return;
+            if (ind < 0 || ind >= clients.Count)
+                return;
+
+            string telephoneNumber = textBoxTelephoneNumber.Text;
+
+            bool flag = true;
+            if (!string.IsNullOrEmpty(telephoneNumber))
+            {
+                foreach (char c in telephoneNumber)
+                {
+                    if (c < '0' || c > '9')
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag)
+                {
+                    consultant.SetClientTelephoneNumber(clients[ind], telephoneNumber);
+                    lastChangeIndex = ind;
+                    labelTelephoneNumber.Content = "Номер успешно сохранён";
+                }
+            }
+        }
+
+        //private void listBox_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    textBoxClientNumber.Text = listBox.ItemsSource.GetEnumerator().ToString();
+        //}
+
+        //private void listBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    textBoxClientNumber.Text = listBox.ItemsSource.GetEnumerator().ToString();
+        //}
+
+        // Сработал именно Preview метод
+        private void listBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            textBoxClientNumber.Text = listBox.ItemsSource.ToString();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            if (lastChangeIndex == -1)
+                textBlockLastChanges.Text = "Изменений пока что нет";
+            else
+                textBlockLastChanges.Text = clients[lastChangeIndex].GetLastChanges();
+        }
+
+        private void buttonGetTelephoneNumber_Click(object sender, RoutedEventArgs e)
+        {
+            string clientIndex = textBoxClientNumber2.Text;
+            if (!int.TryParse(clientIndex, out int ind))
+            {
+                textBlockGettingTelephone.Text = "";
+                return;
+            }                
+            if (ind < 0 || ind >= clients.Count)
+            {
+                textBlockGettingTelephone.Text = "";
+                return;
+            }
+
+            textBlockGettingTelephone.Text = consultant.GetClientNumber(clients[ind]);
         }
     }
 }

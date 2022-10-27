@@ -56,6 +56,14 @@ namespace Task3_OOP1_WPF
                 Console.WriteLine("Последние изменения:\n" + LogAboutChanges);
         }
 
+        public string GetLastChanges()
+        {
+            if (string.IsNullOrEmpty(LogAboutChanges))
+                return "Изменений пока что нет";
+            else
+                return ("Последние изменения:\n" + LogAboutChanges);
+        }
+
         public void PrintFio()
         {
             Console.WriteLine($"ФИО клиента: {SecondName} {FirstName} {MiddleName}");

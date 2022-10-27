@@ -6,7 +6,7 @@ namespace Task3_OOP1_WPF
 {
     /// <summary>
     /// Класс консультанта сможет просматривать поля кроме паспорта, 
-    /// а также сможет менять номер телефона у клиента
+    /// а также сможет менять номер телефона у клиента - это метод из интерфейса
     /// </summary>
     internal class Consultant : IConsultantMethods
     {
@@ -57,6 +57,13 @@ namespace Task3_OOP1_WPF
                 }
             }
             client.TelephoneNumber = new_number;
+
+            client.SaveChanges(DateTime.Now.ToString(), GetType().Name, "Изменён номер телефона");
+        }
+
+        public void SetClientTelephoneNumber(Client client, string telephoneNumber)
+        {
+            client.TelephoneNumber = telephoneNumber;
 
             client.SaveChanges(DateTime.Now.ToString(), GetType().Name, "Изменён номер телефона");
         }

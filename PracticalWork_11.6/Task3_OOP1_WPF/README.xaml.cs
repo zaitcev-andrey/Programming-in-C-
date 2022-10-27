@@ -21,5 +21,10 @@ namespace Task3_OOP1_WPF
         {
             InitializeComponent();
         }
+
+        private void InitializeComponent()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
