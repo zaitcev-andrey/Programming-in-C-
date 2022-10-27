@@ -65,9 +65,7 @@ namespace Task3_OOP1_WPF
         {
             // Получаем индекс из строки и убеждаемся в его корректности
             string clientIndex = textBoxClientNumber.Text;
-            if (!int.TryParse(clientIndex, out int ind))
-                return;
-            if (ind < 0 || ind >= clients.Count)
+            if (!int.TryParse(clientIndex, out int ind) || (ind < 0 || ind >= clients.Count))
                 return;
 
             string telephoneNumber = textBoxTelephoneNumber.Text;
@@ -119,12 +117,7 @@ namespace Task3_OOP1_WPF
         private void buttonGetTelephoneNumber_Click(object sender, RoutedEventArgs e)
         {
             string clientIndex = textBoxClientNumber2.Text;
-            if (!int.TryParse(clientIndex, out int ind))
-            {
-                textBlockGettingTelephone.Text = "";
-                return;
-            }                
-            if (ind < 0 || ind >= clients.Count)
+            if (!int.TryParse(clientIndex, out int ind) || (ind < 0 || ind >= clients.Count))
             {
                 textBlockGettingTelephone.Text = "";
                 return;

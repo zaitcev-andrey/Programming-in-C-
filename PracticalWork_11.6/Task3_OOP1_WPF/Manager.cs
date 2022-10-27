@@ -24,9 +24,19 @@ namespace Task3_OOP1_WPF
             return client;
         }
 
+        public void AddTimeAndLogNoteAboutClient(Client client)
+        {
+            client.SaveChanges(DateTime.Now.ToString(), GetType().Name,
+                "Добавлена новая запись о клиенте");
+        }
+
         public new void PrintCLientPasportData(Client client)
         {
             Console.WriteLine(client.Pasport);
+        }
+        public string GetClientPasportData(Client client)
+        {
+            return client.Pasport;
         }
         public void SetClientFio(Client client)
         {
@@ -138,5 +148,73 @@ namespace Task3_OOP1_WPF
 
         }
 
+        /// <summary>
+        /// Метод для WPF по изменению паспортных данных клиента
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="pasportSeries"></param>
+        /// <param name="pasportNumber"></param>
+        /// <returns></returns>
+
+        public bool CheckPasportSeries(string pasportSeries)
+        {
+            if (pasportSeries.Length == 4)
+            {
+                foreach (char c in pasportSeries)
+                {
+                    if (c < '0' || c > '9')
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public bool CheckPasportNumber(string pasportNumber)
+        {
+            if (pasportNumber.Length == 6)
+            {
+                foreach (char c in pasportNumber)
+                {
+                    if (c < '0' || c > '9')
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public bool SetClientPasportData(Client client, string pasportSeries, string pasportNumber)
+        {
+            StringBuilder result = new StringBuilder();
+            if (CheckPasportSeries(pasportSeries))
+            {
+                if(CheckPasportNumber(pasportNumber))
+                {
+                    result.Append($"{pasportSeries} ");
+                    result.Append(pasportNumber);
+                    client.Pasport = result.ToString();
+
+                    client.SaveChanges(DateTime.Now.ToString(), GetType().Name,
+                        "Изменены паспортные данные клиента");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void SetClientFio(Client client, string lastName, string firstName, string middleName)
+        {
+            client.SecondName = lastName;
+            client.FirstName = firstName;
+            client.MiddleName = middleName;
+
+            client.SaveChanges(DateTime.Now.ToString(), GetType().Name,
+                "Изменены ФИО клиента");
+        }
     }
 }

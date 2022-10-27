@@ -68,6 +68,21 @@ namespace Task3_OOP1_WPF
             client.SaveChanges(DateTime.Now.ToString(), GetType().Name, "Изменён номер телефона");
         }
 
+        public bool CheckClientTelephoneNumber(string telephoneNumber)
+        {
+            if (!string.IsNullOrEmpty(telephoneNumber))
+            {
+                foreach (char c in telephoneNumber)
+                {
+                    if (c < '0' || c > '9')
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
         public string GetClientNumber(Client client)
         {
             return client.TelephoneNumber;

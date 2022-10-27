@@ -45,13 +45,13 @@
                 Grid.Column="1" Background="#FF9FEDAF" Click="OpenManagerWindow"
                 />
         <TextBlock x:Name="textBlockAboutConsultant"
-                   Margin="35,22,35,0"
+                   Margin="35,22,10,0"
                    Grid.Row="1"
                    TextWrapping="Wrap" 
                    Text="   В режиме консультанта вам доступен просмотр записей клиентов, кроме их паспорта, а также изменение номера телефона"
                    FontSize="18"
                    VerticalAlignment="Top" 
-                   Height="102" Width="330"/>
+                   Height="102"/>
         <TextBlock x:Name="textBlockAboutManager"
             Margin="35,22,35,0"
             Grid.Row="1"

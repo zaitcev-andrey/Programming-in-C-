@@ -5,8 +5,223 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Task3_OOP1_WPF"
         mc:Ignorable="d"
-        Title="Режим менеджера" Height="450" Width="800">
-    <Grid>
-        
+        Title="Режим менеджера" Height="630" Width="1100"
+        MinHeight="630" MinWidth="1100">
+    <Grid Background="#FFD2FFF8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="139*"/>
+            <RowDefinition Height="295*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="191*"/>
+            <ColumnDefinition Width="109*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="listBox"
+                 Grid.ColumnSpan="2"
+                 Margin="10,35,10,10" PreviewMouseLeftButtonDown="listBox_PreviewMouseLeftButtonDown"
+                 >
+            <!--xmlns:system="clr-namespace:System;assembly=mscorlib" 
+                 ItemsControl.AlternationCount="{x:Static system:Int32.MaxValue}"-->
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <!--<TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), 
+                                      RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, 
+                                      StringFormat={}Index is {0}, Mode=OneWay}"/>-->
+                            <TextBlock x:Name="textBlock2FromList" TextWrapping="Wrap" Padding="5" Text="{Binding SecondName}"/>
+                            <TextBlock x:Name="textBlock3FromList" TextWrapping="Wrap" Padding="5" Text="{Binding FirstName}"/>
+                            <TextBlock x:Name="textBlock4FromList" TextWrapping="Wrap" Padding="5" Text="{Binding MiddleName}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+
+
+
+        </ListBox>
+        <Button x:Name="buttonLoadData" Content="Загрузить данные о клиентах" 
+                HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="308" Click="buttonClickLoadData" Height="20"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left"
+                   Margin="10,10,0,0" Grid.Row="1"
+                   TextWrapping="Wrap" Text="Изменение номера телефона:"
+                   FontSize="14"
+                   VerticalAlignment="Top"
+                   Height="31" Width="200"/>
+        <TextBlock x:Name="textBlock1"
+                   HorizontalAlignment="Left" 
+                   Margin="10,46,0,0" Grid.Row="1"
+                   FontSize="14"
+                   TextWrapping="Wrap" Text="Выберите клиента, щёлкните по нему или введите индекс (с 0):"
+                   VerticalAlignment="Top" Height="39" Width="222"/>
+        <TextBox x:Name="textBoxClientNumber" HorizontalAlignment="Left"
+                 Height="29" Margin="232,46,0,0" Grid.Row="1"
+                 FontSize="14"
+                 TextWrapping="Wrap" Text="" 
+                 VerticalAlignment="Top" Width="48"/>
+        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left"
+                   Margin="10,90,0,0" Grid.Row="1"
+                   TextWrapping="Wrap" Text="Введите номер телефона: "
+                   FontSize="14"
+                   VerticalAlignment="Top" Height="22" Width="178"/>
+        <TextBox x:Name="textBoxTelephoneNumber" HorizontalAlignment="Left" Margin="186,90,0,0" Grid.Row="1"
+                 TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="94" Height="22"/>
+        <Button x:Name="buttonSaveNumber" Content="Изменить номер" 
+                HorizontalAlignment="Left" Margin="10,121,0,0" Grid.Row="1"
+                VerticalAlignment="Top" Width="154" Click="buttonSaveNumber_Click" Height="20"/>
+        <Label x:Name="labelTelephoneNumber" Content=""
+               HorizontalAlignment="Left"
+               Margin="10,150,0,0" Grid.Row="1"
+               VerticalAlignment="Top" Width="200" Height="28"/>
+        <TextBlock x:Name="textBlockLastChanges"
+                   Grid.Column="1" HorizontalAlignment="Left" 
+                   Margin="10,35,0,0" Grid.Row="1" TextWrapping="Wrap" 
+                   Text="" VerticalAlignment="Top"
+                   Height="101" Width="302"/>
+        <Button x:Name="buttonCheckLastChanges" Grid.Column="1" 
+                Content="Показать последнее изменение" HorizontalAlignment="Left"
+                Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top"
+                RenderTransformOrigin="1.55,1.389" Width="235" Height="20" Click="buttonCheckLastChanges_Click"/>
+        <TextBox x:Name="textBoxClientNumber2" Grid.Column="1"
+                 HorizontalAlignment="Left" Margin="265,168,0,0" Grid.Row="1"
+                 TextWrapping="Wrap" Text="" 
+                 VerticalAlignment="Top" Width="47" Height="37"/>
+        <Button x:Name="buttonGetTelephoneNumber" 
+                Grid.Column="1" Content="Получить номер" 
+                HorizontalAlignment="Left" Height="27"
+                Margin="10,220,0,0" Grid.Row="1" VerticalAlignment="Top" Width="225" Click="buttonGetTelephoneNumber_Click"/>
+        <TextBlock x:Name="textBlock3"
+                   Grid.Column="1" HorizontalAlignment="Left"
+                   Height="38" Margin="10,168,0,0" Grid.Row="1" 
+                   TextWrapping="Wrap" Text="Введите клиента, у которого хотите получить номер телефона"
+                   FontSize="14"
+                   VerticalAlignment="Top" Width="235"/>
+        <TextBlock x:Name="textBlockGettingTelephone" Grid.Column="1"
+                   HorizontalAlignment="Left" Margin="265,221,0,0" Grid.Row="1" 
+                   TextWrapping="Wrap" Text="" 
+                   VerticalAlignment="Top" Height="26" Width="125"/>
+        <TextBox x:Name="textBoxClientForPasport" Grid.Column="1"
+            HorizontalAlignment="Left" Margin="265,292,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="" 
+            VerticalAlignment="Top" Width="47" Height="37"/>
+        <Button x:Name="buttonGetPasport" 
+            Grid.Column="1" Content="Получить паспорт" 
+            HorizontalAlignment="Left" Height="27"
+            Margin="10,344,0,0" Grid.Row="1" VerticalAlignment="Top" Width="225" Click="buttonGetPasport_Click"/>
+        <TextBlock x:Name="textBlock3_Copy"
+            Grid.Column="1" HorizontalAlignment="Left"
+            Height="38" Margin="10,292,0,0" Grid.Row="1" 
+            TextWrapping="Wrap" Text="Введите клиента, у которого хотите получить паспортные данные"
+            FontSize="14"
+            VerticalAlignment="Top" Width="235"/>
+        <TextBlock x:Name="textBlockGettingPasport" Grid.Column="1"
+            HorizontalAlignment="Left" Margin="265,345,0,0" Grid.Row="1" 
+            TextWrapping="Wrap" Text="" 
+            VerticalAlignment="Top" Height="26" Width="125"/>
+        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left"
+            Margin="359,10,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="Изменение паспортных данных:"
+            FontSize="14"
+            VerticalAlignment="Top"
+            Height="31" Width="222"/>
+        <TextBlock x:Name="textBlock1_Copy"
+            HorizontalAlignment="Left" 
+            Margin="359,46,0,0" Grid.Row="1"
+            FontSize="14"
+            TextWrapping="Wrap" Text="Выберите клиента, щёлкните по нему или введите индекс (с 0):"
+            VerticalAlignment="Top" Height="39" Width="222"/>
+        <TextBox x:Name="textBoxClientNumber_Copy" HorizontalAlignment="Left"
+            Height="29" Margin="581,46,0,0" Grid.Row="1"
+            FontSize="14"
+            TextWrapping="Wrap" Text="" 
+            VerticalAlignment="Top" Width="48"/>
+        <TextBlock x:Name="textBlock2_Copy" HorizontalAlignment="Left"
+            Margin="359,90,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="Введите серию паспорта: "
+            FontSize="14"
+            VerticalAlignment="Top" Height="22" Width="178"/>
+        <TextBox x:Name="textBoxPasportSeries" HorizontalAlignment="Left" Margin="535,90,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="46" Height="22"/>
+        <Button x:Name="buttonSavePasport" Content="Изменить паспорт" 
+            HorizontalAlignment="Left" Margin="359,149,0,0" Grid.Row="1"
+            VerticalAlignment="Top" Width="154" Click="buttonSavePasport_Click" Height="20"/>
+        <Label x:Name="labelPasport" Content=""
+            HorizontalAlignment="Left"
+            Margin="359,174,0,0" Grid.Row="1"
+            VerticalAlignment="Top" Width="200" Height="25"/>
+        <TextBlock x:Name="textBlock2_Copy1" HorizontalAlignment="Left"
+            Margin="359,120,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="Введите номер паспорта: "
+            FontSize="14"
+            VerticalAlignment="Top" Height="22" Width="178"/>
+        <TextBox x:Name="textBoxPasportNumber" HorizontalAlignment="Left" Margin="535,120,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="70" Height="22"/>
+
+        <TextBlock x:Name="textBlock4" HorizontalAlignment="Left"
+                   Margin="6,185,0,0" Grid.Row="1" TextWrapping="Wrap"
+                   Text="Добавить запись:" VerticalAlignment="Top"
+                   FontSize="16" Width="134"/>
+        <TextBlock x:Name="textBlock5" HorizontalAlignment="Left" Margin="6,210,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Фамилия:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock5_Copy" HorizontalAlignment="Left" Margin="6,231,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Имя:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock5_Copy1" HorizontalAlignment="Left" Margin="6,252,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Отчество:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock5_Copy2" HorizontalAlignment="Left" Margin="6,273,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Серия паспорта:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock5_Copy3" HorizontalAlignment="Left" Margin="6,292,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Номер паспорта:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock5_Copy4" HorizontalAlignment="Left" Margin="6,311,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Телефон:" VerticalAlignment="Top"/>
+        <Button x:Name="buttonAddNote" Content="Добавить запись" HorizontalAlignment="Left" Height="26" Margin="4,332,0,0" Grid.Row="1" VerticalAlignment="Top" Width="206" Click="buttonAddNote_Click"/>
+        <TextBox x:Name="textBoxLastNameForNote" HorizontalAlignment="Left" Margin="107,210,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="102"/>
+        <TextBox x:Name="textBoxFirstNameForNote" HorizontalAlignment="Left" Margin="107,231,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="102"/>
+        <TextBox x:Name="textBoxMiddleNameForNote" HorizontalAlignment="Left" Margin="107,251,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="102"/>
+        <TextBox x:Name="textBoxPasportSeriesForNote" HorizontalAlignment="Left" Margin="107,273,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="102"/>
+        <TextBox x:Name="textBoxPasportNumberForNote" HorizontalAlignment="Left" Margin="107,293,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="102"/>
+        <TextBox x:Name="textBoxTelephoneForNote" HorizontalAlignment="Left" Margin="107,312,0,0" Grid.Row="1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="102"/>
+        <Label x:Name="labelNewNote" Content="" HorizontalAlignment="Left" Margin="6,363,0,0" Grid.Row="1" VerticalAlignment="Top" Width="204" Height="24"/>
+        <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left"
+            Margin="359,200,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="Изменение ФИО клиента:"
+            FontSize="14"
+            VerticalAlignment="Top"
+            Height="31" Width="222"/>
+        <TextBlock x:Name="textBlock1_Copy1"
+            HorizontalAlignment="Left" 
+            Margin="359,236,0,0" Grid.Row="1"
+            FontSize="14"
+            TextWrapping="Wrap" Text="Введите индекс клиента:"
+            VerticalAlignment="Top" Height="24" Width="168"/>
+        <TextBox x:Name="textBoxClientNumberForFio" HorizontalAlignment="Left"
+            Height="24" Margin="532,236,0,0" Grid.Row="1"
+            FontSize="14"
+            TextWrapping="Wrap" Text="" 
+            VerticalAlignment="Top" Width="48"/>
+        <TextBlock x:Name="textBlock2_Copy2" HorizontalAlignment="Left"
+            Margin="359,265,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="Фамилия: "
+            FontSize="14"
+            VerticalAlignment="Top" Height="22" Width="67"/>
+        <TextBox x:Name="textBoxLastName" HorizontalAlignment="Left" Margin="431,265,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="82" Height="22"/>
+        <Button x:Name="buttonSaveFIO" Content="Изменить ФИО" 
+            HorizontalAlignment="Left" Margin="359,345,0,0" Grid.Row="1"
+            VerticalAlignment="Top" Width="154" Click="buttonSaveFIO_Click" Height="20"/>
+        <TextBlock x:Name="textBlock2_Copy3" HorizontalAlignment="Left"
+            Margin="359,292,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="Имя: "
+            FontSize="14"
+            VerticalAlignment="Top" Height="22" Width="77"/>
+        <TextBox x:Name="textBoxFirstName" HorizontalAlignment="Left" Margin="431,292,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="82" Height="22"/>
+        <TextBlock x:Name="textBlock2_Copy4" HorizontalAlignment="Left"
+            Margin="359,317,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="Отчество: "
+            FontSize="14"
+            VerticalAlignment="Top" Height="22" Width="77"/>
+        <TextBox x:Name="textBoxMiddleName" HorizontalAlignment="Left" Margin="431,317,0,0" Grid.Row="1"
+            TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="82" Height="22"/>
+        <TextBlock x:Name="textBlockNewFIO" HorizontalAlignment="Left"
+                   Margin="535,312,0,0" Grid.Row="1" 
+                   TextWrapping="Wrap" Text="" 
+                   VerticalAlignment="Top" Height="53" Width="135"/>
+
     </Grid>
 </Window>
