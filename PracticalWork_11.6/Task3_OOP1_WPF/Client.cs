@@ -17,11 +17,32 @@ namespace Task3_OOP1_WPF
         public string WhatDataIsChange { get; set; }
         private string LogAboutChanges; // скроем лог информации, чтобы в файле json он не дублировался
 
+        // в этой статической будет храниться максимальный id клиентов
+        private static int id;
+
+        // а в этом Id будет храниться свой собственный id у каждого клиента
+        public int Id { get; set; }
+        static Client()
+        {
+            id = 0;
+        }
+
+        // Этот метод понадобился, если из режима консультанта после загрузки данных
+        // мы переходим в режим менеджера, где снова загружаем данные. Нужно, чтобы
+        // id клиентов не рос дальше, а начинался заново
+        public static void ResetId()
+        {
+            id = 0;
+        }
+
         public Client(string firstName, string secondName,
             string middleName, string telephoneNumber,
             string pasport, string whoChangedData = "",
             string whatDataIsChange = "")
         {
+            id++;
+            this.Id = id;
+
             FirstName = firstName;
             SecondName = secondName;
             MiddleName = middleName;

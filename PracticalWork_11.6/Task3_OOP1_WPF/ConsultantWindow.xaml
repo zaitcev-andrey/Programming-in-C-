@@ -30,6 +30,7 @@
                             <!--<TextBlock Text="{Binding Path=(ItemsControl.AlternationIndex), 
                                       RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, 
                                       StringFormat={}Index is {0}, Mode=OneWay}"/>-->
+                            <TextBlock x:Name="textBlock1FromList" TextWrapping="Wrap" Padding="5" Text="{Binding Id}"/>
                             <TextBlock x:Name="textBlock2FromList" TextWrapping="Wrap" Padding="5" Text="{Binding SecondName}"/>
                             <TextBlock x:Name="textBlock3FromList" TextWrapping="Wrap" Padding="5" Text="{Binding FirstName}"/>
                             <TextBlock x:Name="textBlock4FromList" TextWrapping="Wrap" Padding="5" Text="{Binding MiddleName}"/>
@@ -54,12 +55,12 @@
                    HorizontalAlignment="Left" 
                    Margin="10,46,0,0" Grid.Row="1"
                    FontSize="14"
-                   TextWrapping="Wrap" Text="Выберите клиента, щёлкните по нему или введите индекс (с 0):"
+                   TextWrapping="Wrap" Text="Выберите клиента, щёлкните по нему или введите индекс (с 1):"
                    VerticalAlignment="Top" Height="39" Width="222"/>
         <TextBox x:Name="textBoxClientNumber" HorizontalAlignment="Left"
                  Height="39" Margin="237,46,0,0" Grid.Row="1"
                  FontSize="14"
-                 TextWrapping="Wrap" Text="" 
+                 TextWrapping="Wrap" Text="{Binding ElementName=listBox, Path=SelectedItem.Id}" 
                  VerticalAlignment="Top" Width="43"/>
         <TextBlock x:Name="textBlock2" HorizontalAlignment="Left"
                    Margin="10,114,0,0" Grid.Row="1"

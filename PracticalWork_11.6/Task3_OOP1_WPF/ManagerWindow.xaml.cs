@@ -28,6 +28,8 @@ namespace Task3_OOP1_WPF
         public ManagerWindow()
         {
             InitializeComponent();
+
+            Client.ResetId();
         }
 
         private void buttonClickLoadData(object sender, RoutedEventArgs e)
@@ -64,13 +66,13 @@ namespace Task3_OOP1_WPF
         private void buttonGetTelephoneNumber_Click(object sender, RoutedEventArgs e)
         {
             string clientIndex = textBoxClientNumber2.Text;
-            if (!int.TryParse(clientIndex, out int ind) || (ind < 0 || ind >= clients.Count))
+            if (!int.TryParse(clientIndex, out int ind) || (ind < 1 || ind > clients.Count))
             {
                 textBlockGettingTelephone.Text = "";
                 return;
             }
 
-            textBlockGettingTelephone.Text = manager.GetClientNumber(clients[ind]);
+            textBlockGettingTelephone.Text = manager.GetClientNumber(clients[ind - 1]);
         }
 
         private void buttonCheckLastChanges_Click(object sender, RoutedEventArgs e)
@@ -81,16 +83,21 @@ namespace Task3_OOP1_WPF
                 textBlockLastChanges.Text = clients[lastChangeIndex].GetLastChanges();
         }
 
+        // Этот вариант работает, но через
+        // Binding и Path в TextBox удобнее
         private void listBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            textBoxClientNumber.Text = listBox.ItemsSource.ToString();
+            // в случае, если выбранный элемент в списке - это действительно экземпляр клиента,
+            // мы возьмём его id и поместим в textbox
+            //if (listBox.SelectedItem is Client client)
+            //    textBoxClientNumber.Text = client.Id.ToString();
         }
 
         private void buttonSaveNumber_Click(object sender, RoutedEventArgs e)
         {
             // Получаем индекс из строки и убеждаемся в его корректности
             string clientIndex = textBoxClientNumber.Text;
-            if (!int.TryParse(clientIndex, out int ind) || (ind < 0 || ind >= clients.Count))
+            if (!int.TryParse(clientIndex, out int ind) || (ind < 1 || ind > clients.Count))
             {
                 labelTelephoneNumber.Content = "Вы неверно ввели индекс клиента";
                 return;
@@ -100,8 +107,8 @@ namespace Task3_OOP1_WPF
 
             if(manager.CheckClientTelephoneNumber(telephoneNumber))
             {
-                manager.SetClientTelephoneNumber(clients[ind], telephoneNumber);
-                lastChangeIndex = ind;
+                manager.SetClientTelephoneNumber(clients[ind - 1], telephoneNumber);
+                lastChangeIndex = ind - 1;
                 labelTelephoneNumber.Content = "Номер успешно изменён";
             }
         }
@@ -109,7 +116,7 @@ namespace Task3_OOP1_WPF
         private void buttonSavePasport_Click(object sender, RoutedEventArgs e)
         {
             string clientIndex = textBoxClientNumber_Copy.Text;
-            if (!int.TryParse(clientIndex, out int ind) || (ind < 0 || ind >= clients.Count))
+            if (!int.TryParse(clientIndex, out int ind) || (ind < 1 || ind > clients.Count))
             {
                 labelPasport.Content = "Вы неверно ввели индекс клиента";
                 return;
@@ -118,9 +125,9 @@ namespace Task3_OOP1_WPF
             string pasportSeries = textBoxPasportSeries.Text;
             string pasportNumber = textBoxPasportNumber.Text;
 
-            if (manager.SetClientPasportData(clients[ind], pasportSeries, pasportNumber))
+            if (manager.SetClientPasportData(clients[ind - 1], pasportSeries, pasportNumber))
             {
-                lastChangeIndex = ind;
+                lastChangeIndex = ind - 1;
                 labelPasport.Content = "Паспорт успешно изменён";
             }
             else
@@ -130,13 +137,13 @@ namespace Task3_OOP1_WPF
         private void buttonGetPasport_Click(object sender, RoutedEventArgs e)
         {
             string clientIndex = textBoxClientForPasport.Text;
-            if (!int.TryParse(clientIndex, out int ind) || (ind < 0 || ind >= clients.Count))
+            if (!int.TryParse(clientIndex, out int ind) || (ind < 1 || ind > clients.Count))
             {
                 textBlockGettingTelephone.Text = "";
                 return;
             }
 
-            textBlockGettingPasport.Text = manager.GetClientPasportData(clients[ind]);
+            textBlockGettingPasport.Text = manager.GetClientPasportData(clients[ind - 1]);
         }
 
         private void buttonAddNote_Click(object sender, RoutedEventArgs e)
@@ -178,6 +185,8 @@ namespace Task3_OOP1_WPF
             Client client = new Client(firstName, lastName, middleName, telephoneNumber, allPasport);
             manager.AddTimeAndLogNoteAboutClient(client);
             clients.Add(client);
+            labelNewNote.Content = "Запись успешно добавлена";
+
             string json = JsonConvert.SerializeObject(clients);
             File.WriteAllText("clients.json", json);
             listBox.Items.Refresh();
@@ -186,7 +195,7 @@ namespace Task3_OOP1_WPF
         private void buttonSaveFIO_Click(object sender, RoutedEventArgs e)
         {
             string clientIndex = textBoxClientNumberForFio.Text;
-            if (!int.TryParse(clientIndex, out int ind) || (ind < 0 || ind >= clients.Count))
+            if (!int.TryParse(clientIndex, out int ind) || (ind < 1 || ind > clients.Count))
             {
                 textBlockNewFIO.Text = "Вы неверно ввели индекс клиента";
                 return;
@@ -198,8 +207,8 @@ namespace Task3_OOP1_WPF
 
             if(!string.IsNullOrEmpty(lastName) && !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(middleName))
             {
-                manager.SetClientFio(clients[ind], lastName, firstName, middleName);
-                lastChangeIndex = ind;
+                manager.SetClientFio(clients[ind - 1], lastName, firstName, middleName);
+                lastChangeIndex = ind - 1;
                 textBlockNewFIO.Text = "ФИО успешно изменены";
                 // нужно явно прописать Refresh, иначе запись не обновится в поле загрузки
                 listBox.Items.Refresh();

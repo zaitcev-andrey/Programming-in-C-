@@ -27,7 +27,9 @@ namespace Task3_OOP1_WPF
 
         public ConsultantWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            Client.ResetId();
         }
 
         private void buttonClickLoadData(object sender, RoutedEventArgs e)
@@ -65,7 +67,7 @@ namespace Task3_OOP1_WPF
         {
             // Получаем индекс из строки и убеждаемся в его корректности
             string clientIndex = textBoxClientNumber.Text;
-            if (!int.TryParse(clientIndex, out int ind) || (ind < 0 || ind >= clients.Count))
+            if (!int.TryParse(clientIndex, out int ind) || (ind < 1 || ind > clients.Count))
                 return;
 
             string telephoneNumber = textBoxTelephoneNumber.Text;
@@ -83,8 +85,8 @@ namespace Task3_OOP1_WPF
                 }
                 if (flag)
                 {
-                    consultant.SetClientTelephoneNumber(clients[ind], telephoneNumber);
-                    lastChangeIndex = ind;
+                    consultant.SetClientTelephoneNumber(clients[ind - 1], telephoneNumber);
+                    lastChangeIndex = ind - 1;
                     labelTelephoneNumber.Content = "Номер успешно сохранён";
                 }
             }
@@ -100,10 +102,14 @@ namespace Task3_OOP1_WPF
         //    textBoxClientNumber.Text = listBox.ItemsSource.GetEnumerator().ToString();
         //}
 
-        // Сработал именно Preview метод
+        // Сработал именно Preview метод, а предыдущие 2 нет. Этот вариант работает, но через
+        // Binding и Path в TextBox удобнее
         private void listBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            textBoxClientNumber.Text = listBox.ItemsSource.ToString();
+            // в случае, если выбранный элемент в списке - это действительно экземпляр клиента,
+            // мы возьмём его id и поместим в textbox
+            //if (listBox.SelectedItem is Client client)
+            //    textBoxClientNumber.Text = client.Id.ToString();
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
@@ -117,13 +123,13 @@ namespace Task3_OOP1_WPF
         private void buttonGetTelephoneNumber_Click(object sender, RoutedEventArgs e)
         {
             string clientIndex = textBoxClientNumber2.Text;
-            if (!int.TryParse(clientIndex, out int ind) || (ind < 0 || ind >= clients.Count))
+            if (!int.TryParse(clientIndex, out int ind) || (ind < 1 || ind > clients.Count))
             {
                 textBlockGettingTelephone.Text = "";
                 return;
             }
 
-            textBlockGettingTelephone.Text = consultant.GetClientNumber(clients[ind]);
+            textBlockGettingTelephone.Text = consultant.GetClientNumber(clients[ind - 1]);
         }
     }
 }
