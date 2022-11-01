@@ -1,0 +1,104 @@
+﻿<Window x:Class="Task1_OOP2_WPF.ConsultantWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Task1_OOP2_WPF"
+        mc:Ignorable="d"
+        Title="Режим консультанта" Height="480" Width="800"
+        MinHeight="480" MinWidth="800">
+    <Grid Background="#FFC0FFE1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="9*"/>
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="comboBoxDepartments" HorizontalAlignment="Center" VerticalAlignment="Center" Width="220" Height="32" SelectionChanged="comboBoxDepartments_SelectionChanged"/>
+        <ListView x:Name="listViewClients" Margin="10,10,10,10" Grid.Column="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id в отделе" Width="80" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Фамилия" Width="80" DisplayMemberBinding="{Binding LastName}"/>
+                    <GridViewColumn Header="Имя" Width="80" DisplayMemberBinding="{Binding FirstName}"/>
+                    <GridViewColumn Header="Отчество" Width="100" DisplayMemberBinding="{Binding MiddleName}"/>
+                    <GridViewColumn Header="Возраст" Width="80" DisplayMemberBinding="{Binding Age}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBlock x:Name="textBlock" Margin="14,10,14,0"
+                   TextWrapping="Wrap" Text="Выберите департамент"
+                   FontSize="18"
+                   TextAlignment="Center"
+                   VerticalAlignment="Top" Height="26"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" 
+                   Margin="14,28,0,0" Grid.Row="1" TextWrapping="Wrap" 
+                   Text="Выберите клиента, у которого хотите изменить телефон"
+                   FontSize="14"
+                   VerticalAlignment="Top" Height="38" Width="210"/>
+        <TextBox x:Name="textBoxChooseClient" HorizontalAlignment="Left" 
+                 Margin="221,28,0,0" Grid.Row="1" TextWrapping="Wrap"
+                 Text="{Binding ElementName=listViewClients, Path=SelectedItem.Id, Mode=OneWay}" 
+                 VerticalAlignment="Top" Width="46" Height="38"/>
+        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left"
+                   Margin="14,92,0,0" Grid.Row="1"
+                   TextWrapping="Wrap" Text="Введите номер телефона: "
+                   FontSize="14"
+                   VerticalAlignment="Top" Height="22" Width="178"/>
+        <TextBox x:Name="textBoxTelephoneNumber" HorizontalAlignment="Left" Margin="197,92,0,0" Grid.Row="1"
+                 TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="140" Height="22"/>
+        <Button x:Name="buttonSaveNumber" Content="Сохранить номер" 
+                HorizontalAlignment="Left" Margin="14,130,0,0" Grid.Row="1"
+                VerticalAlignment="Top" Width="154" Click="buttonSaveNumber_Click" Height="20"/>
+        <TextBlock x:Name="labelTelephoneNumber" Text=""
+                   TextWrapping="Wrap"
+               HorizontalAlignment="Left"
+               Margin="175,124,0,0" Grid.Row="1"
+               VerticalAlignment="Top" Width="162" Height="26"/>
+
+        <TextBlock x:Name="textBlock3" HorizontalAlignment="Left"
+                   Height="38" Margin="14,190,0,0" Grid.Row="1" 
+                   TextWrapping="Wrap" Text="Введите клиента, у которого хотите получить номер телефона"
+                   FontSize="14"
+                   VerticalAlignment="Top" Width="235"/>
+        <TextBox x:Name="textBoxChooseClient2"
+                 HorizontalAlignment="Left" Margin="254,190,0,0" Grid.Row="1"
+                 TextWrapping="Wrap" Text="{Binding ElementName=listViewClients, Path=SelectedItem.Id}" 
+                 VerticalAlignment="Top" Width="47" Height="37"/>
+        <Button x:Name="buttonGetTelephoneNumber" Content="Получить номер" 
+                HorizontalAlignment="Left" Height="27"
+                Margin="14,242,0,0" Grid.Row="1" VerticalAlignment="Top" Width="225" Click="buttonGetTelephoneNumber_Click"/>
+        <TextBlock x:Name="textBlockGettingTelephone"
+                   HorizontalAlignment="Left" Margin="14,274,0,0" Grid.Row="1" 
+                   TextWrapping="Wrap" Text="" 
+                   VerticalAlignment="Top" Height="26" Width="225"/>
+        <Button x:Name="buttonGetLastChanges" Grid.Column="1" 
+                Content="Показать последнее изменение" HorizontalAlignment="Left"
+                Margin="10,176,0,0" Grid.Row="1" VerticalAlignment="Top"
+                FontSize="14"
+                RenderTransformOrigin="1.55,1.389" Width="250" Click="buttonGetLastChanges_Click" Height="37"/>
+        <TextBlock x:Name="textBlockLastChanges"
+                   Grid.Column="1" HorizontalAlignment="Left" 
+                   Margin="10,220,0,0" Grid.Row="1" TextWrapping="Wrap" 
+                   Text="" VerticalAlignment="Top"
+                   Height="101" Width="250"/>
+        <Button x:Name="buttonSortByFirstName" Grid.Column="1" Content="Сортировать по имени"
+                HorizontalAlignment="Left" Margin="10,27,0,0" Grid.Row="1"
+                VerticalAlignment="Top" Width="159" Height="20" Click="buttonSortByFirstName_Click"/>
+        <Button x:Name="buttonSortByLastName" Grid.Column="1" Content="Сортировать по фамилии"
+            HorizontalAlignment="Left" Margin="10,63,0,0" Grid.Row="1"
+            VerticalAlignment="Top" Width="159" Height="20" Click="buttonSortByLastName_Click"/>
+        <Button x:Name="buttonSortByMiddleName" Grid.Column="1" Content="Сортировать по отчеству"
+            HorizontalAlignment="Left" Margin="10,99,0,0" Grid.Row="1"
+            VerticalAlignment="Top" Width="159" Height="20" Click="buttonSortByMiddleName_Click"/>
+        <Button x:Name="buttonSortByAge" Grid.Column="1" Content="Сортировать по возрасту"
+            HorizontalAlignment="Left" Margin="200,27,0,0" Grid.Row="1"
+            VerticalAlignment="Top" Width="159" Height="20" Click="buttonSortByAge_Click"/>
+        <Button x:Name="buttonSortById" Grid.Column="1" Content="Сортировать по id в отделе"
+            HorizontalAlignment="Left" Margin="200,63,0,0" Grid.Row="1"
+            VerticalAlignment="Top" Width="159" Height="20" Click="buttonSortById_Click"/>
+
+    </Grid>
+</Window>
