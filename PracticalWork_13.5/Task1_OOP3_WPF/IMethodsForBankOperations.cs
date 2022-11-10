@@ -10,7 +10,7 @@ namespace Task1_OOP3_WPF
     public interface IMethodsForBankOperations
     {
         void AddBankAccount(BankAccountNames name, double money);
-        bool RemoveBankAccount(int index);
+        bool RemoveBankAccount(int accountId);
         bool TransferMoneyBetweenAccounts(int accountIdFrom, int accountIdTo, double sum);
     }
 }
