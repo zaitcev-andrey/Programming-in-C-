@@ -221,5 +221,8 @@
         </StackPanel>
 
 
+        <Popup x:Name="notificationPopup" Width="600" Height="50">
+            <TextBlock x:Name="textBlockNotification" Text="" Background="Yellow" TextWrapping="Wrap" FontSize="16"></TextBlock>
+        </Popup>
     </Grid>
 </Window>

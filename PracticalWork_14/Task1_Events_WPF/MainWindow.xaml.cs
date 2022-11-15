@@ -94,7 +94,13 @@ namespace Task1_Events_WPF
                 comboBoxAccountType5.ItemsSource = bankAccountTypes;
 
             // делаем привязку на получение событий от банка
-            bank.bankOperation += msg => listBoxJournal.Items.Add($"{++eventCounter}) {msg}");
+            bank.bankOperation += msg =>
+            {
+                listBoxJournal.Items.Add($"{++eventCounter}) {msg}");
+
+                textBlockNotification.Text = $"Последняя операция: {msg}";
+                notificationPopup.IsOpen = true;
+            };
         }
 
         // событие, которое происходит после выбора счёта
