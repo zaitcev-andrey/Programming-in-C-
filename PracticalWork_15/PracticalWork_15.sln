@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task1_Exceptions_WPF", "Task1_Exceptions_WPF\Task1_Exceptions_WPF.csproj", "{7624A142-AAF8-4911-BC3B-47ECD036F6F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankAccountLibrary", "BankAndBankAccountLibrary\BankAccountLibrary.csproj", "{E2ECB90E-E533-40EF-9FAC-7A3E81095E29}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{0910E51A-1B2C-4957-88F0-EFD8F06B6BE9}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7624A142-AAF8-4911-BC3B-47ECD036F6F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7624A142-AAF8-4911-BC3B-47ECD036F6F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7624A142-AAF8-4911-BC3B-47ECD036F6F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7624A142-AAF8-4911-BC3B-47ECD036F6F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2ECB90E-E533-40EF-9FAC-7A3E81095E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2ECB90E-E533-40EF-9FAC-7A3E81095E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2ECB90E-E533-40EF-9FAC-7A3E81095E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2ECB90E-E533-40EF-9FAC-7A3E81095E29}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EEF2B76D-CE68-4B0A-B0CD-1607329504C2}
+	EndGlobalSection
+EndGlobal
