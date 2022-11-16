@@ -7,8 +7,8 @@
     <ProjectGuid>{E2ECB90E-E533-40EF-9FAC-7A3E81095E29}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BankAndBankAccountLibrary</RootNamespace>
-    <AssemblyName>BankAndBankAccountLibrary</AssemblyName>
+    <RootNamespace>BankAccountLibrary</RootNamespace>
+    <AssemblyName>BankAccountLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
